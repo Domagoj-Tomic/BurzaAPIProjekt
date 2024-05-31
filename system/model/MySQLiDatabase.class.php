@@ -1,10 +1,8 @@
 <?php
 class MySQLiDatabase {
     public $MySQLi;
-    protected $host;
-    protected $user;
-    protected $password;
-    protected $database;
+    protected $host, $user, $password, $database;
+    protected $queryCount, $result; 
 
     public function __construct($hst, $usr, $pw, $db){
         $this->host = $hst;
@@ -17,7 +15,7 @@ class MySQLiDatabase {
 
     protected function connect(){
         $this->MySQLi = new MySQLi($this->host, $this->user, $this->password, $this->database);
-        if(mysql_connect_errno()) throw new DatabaseException("Lalalala");
+        if(mysqli_connect_errno()) throw new DatabaseException("Lalalala");
     }
 
     protected function selectDatabase() {
