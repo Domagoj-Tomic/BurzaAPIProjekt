@@ -6,6 +6,7 @@ class RequestHandler {
                 $className = $className . "Page";
                 require_once(ROOT . "\\system\\control\\" . $className . ".class.php");
                 new $className();
+                echo "Ako vidiš ovo, RequestHandler.class.php je ok.<br>";
         }
 
         public static function handle(){

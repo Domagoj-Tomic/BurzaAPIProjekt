@@ -22,6 +22,8 @@ define("ROOT", __DIR__);
     //uopće funkcionirati kod tebe
     //Želim umrijeti :D
     $appCore = new AppCore();
+    echo "Ako vidiš ovo, index.php je ok.<br>";
+    echo "Ako si gore vidio tri stavke, sve je ok (valjda).";
     ?>
 </body>
 </html>
