@@ -1,7 +1,13 @@
 <?php
-class IndexPage {
-        //kopirano iz vježbe 6, sa malim izmjenama
-        //dovršiti kasnije
+class IndexPage extends AbstractPage {
+        public $templateName = 'index';
+
+        public function __construct()
+        {
+                // Poziv AbstractPage konstruktora.
+                parent::__construct();
+        }
+
         public function execute() {
                 $resources = [
                         1 => [
@@ -13,7 +19,7 @@ class IndexPage {
                         2 => [
                                 "url" => "GetData",
                                 "method" => "GET",
-                                "desctiption" => "Dohvati podatke iz baze. Podržani parametri: blabla" //TODO: popuniti opis parametrima
+                                "description" => "Dohvati podatke iz baze. Podržani parametri: blabla" //TODO: popuniti opis parametrima
                         ],
 
                         3 => [
@@ -22,5 +28,8 @@ class IndexPage {
                                 "description" => "Dodaj novu dionicu u bazu. Obavezni parametri: blabla" //TODO: popuniti opis parametrima
                         ]
                 ];
+                
+                $this->data = $resources;
         }
+
 }
