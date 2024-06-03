@@ -14,8 +14,16 @@ define("ROOT", str_replace("\\", "/", __DIR__));
     <?php
     require_once(ROOT . '/system/AppCore.class.php');
     $appCore = new AppCore();
-    echo "Ako vidiš ovo, index.php je ok.<br>";
-    echo "Ako si gore vidio tri stavke i nijedan error, sve je ok (valjda).";
+    // https://www.alphavantage.co/documentation/
+    // Key za API: LILJ8YER1XKMEVE1
+    // URL path absolutan kao u vjezbi
+    // Fetch-at podatke dionica: dnevno i povijesni za preddefinirane dionice
+    // CRUD za administraciju dionica
+    // Ispis u JSON formatu
+    // Siguran od SQL injekcija i XSS-a
+    // Jedan unit test
+    // Jedan fake test
+    // Dokumentacija
     ?>
 </body>
 </html>
