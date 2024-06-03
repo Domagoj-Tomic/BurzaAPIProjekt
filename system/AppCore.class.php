@@ -3,8 +3,8 @@ class AppCore {
     function __construct()
     {
         require_once(ROOT . "/system/util/RequestHandler.class.php");
-        $requestHandler = new RequestHandler("Index");
-        echo "Ako vidiš ovo, AppCore.Class.php je ok.<br>";
+        // handle je static pa ga ne moramo instancirati
+        RequestHandler::handle();
     }
 
     function handleException(Exception $e) {
