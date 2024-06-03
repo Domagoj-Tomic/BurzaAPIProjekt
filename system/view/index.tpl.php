@@ -1,14 +1,15 @@
 Burza API ©2024 Bogdan Grabovac i Domagoj Tomić<br><br>
 
-<?php
-foreach($resources as $key => $data) {
-        echo "<strong>";
-        echo $key;
-        echo $data["url"];
-        echo "</strong>";
-        echo "<br>";
-        echo "Metoda: " . $data["method"];
-        echo "<br>";
-        echo $data["description"];
-        echo "<br>";
-}
+<?php 
+// Data iz RequestHandler-a (koji iste dobio iz IndexPage-a) se ucitava u template.
+foreach($data as $key => $info) { ?>
+        <strong>
+                <?=$key?>
+                <?=$info["url"]?>
+        </strong>
+        <br>
+        Metoda: <?=$info["method"]?>
+        <br>
+        <?=$info["description"]?>
+        <br>
+<?php } ?>
