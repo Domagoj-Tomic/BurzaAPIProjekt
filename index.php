@@ -1,6 +1,4 @@
 <?php
-//Konstanta koja sadržava root directory (lokaciju index.php datoteke)
-//Koristimo ju u svim drugim datotekama kad pozivamo require_once() ili slično
 define("ROOT", str_replace("\\", "/", __DIR__));
 ?>
 
@@ -15,12 +13,6 @@ define("ROOT", str_replace("\\", "/", __DIR__));
 <body>
     <?php
     require_once(ROOT . '/system/AppCore.class.php');
-    //Pošto Windows koristi backslash, a ne forward slash u svom file sistemu,
-    //trebamo escape-ati backslashove sa još jednim backslashom.
-    //Hvala, Bill Gates.
-    //Upravo mi je palo na pamet da si ti na Ubuntu, stoga ne znam kako će to
-    //uopće funkcionirati kod tebe
-    //Želim umrijeti :D
     $appCore = new AppCore();
     echo "Ako vidiš ovo, index.php je ok.<br>";
     echo "Ako si gore vidio tri stavke i nijedan error, sve je ok (valjda).";
