@@ -1,7 +1,7 @@
 <?php
 //Konstanta koja sadržava root directory (lokaciju index.php datoteke)
 //Koristimo ju u svim drugim datotekama kad pozivamo require_once() ili slično
-define("ROOT", __DIR__);
+define("ROOT", str_replace("\\", "/", __DIR__));
 ?>
 
 <!DOCTYPE html>
@@ -14,7 +14,7 @@ define("ROOT", __DIR__);
 </head>
 <body>
     <?php
-    require_once(ROOT . '\\system\\AppCore.class.php');
+    require_once(ROOT . '/system/AppCore.class.php');
     //Pošto Windows koristi backslash, a ne forward slash u svom file sistemu,
     //trebamo escape-ati backslashove sa još jednim backslashom.
     //Hvala, Bill Gates.
