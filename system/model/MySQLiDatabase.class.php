@@ -15,11 +15,11 @@ class MySQLiDatabase {
 
     protected function connect(){
         $this->MySQLi = new MySQLi($this->host, $this->user, $this->password, $this->database);
-        if(mysqli_connect_errno()) throw new DatabaseException("Lalalala");
+        if(mysqli_connect_errno()) throw new DatabaseException("Error connecting to database");
     }
 
     protected function selectDatabase() {
-        if($this->MySQLi->select_db($this->database) === false) throw new DatabaseException("Dumdumdumdum");
+        if($this->MySQLi->select_db($this->database) === false) throw new DatabaseException("Error selecting database");
     }
 
     public function createDatbase() {
@@ -29,7 +29,7 @@ class MySQLiDatabase {
             try {
                 $this->sendQuery("mmmmmm");
             } catch (DatabaseException $e2) {
-                throw new DatabaseException("Tralala");
+                throw new DatabaseException("Error creating database");
             }
         }
     }
