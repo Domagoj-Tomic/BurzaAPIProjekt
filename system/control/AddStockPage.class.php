@@ -15,13 +15,24 @@ class AddStockPage extends AbstractPage {
                 // $json = json_decode(file_get_contents('https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol='.$this->symbol.'&apikey=LILJ8YER1XKMEVE1'), true);
                 $meta = $json["Meta Data"];
                 $value = array_shift($json["Time Series (Daily)"]);
+                //Unesi novi zapis ako već ne postoji isti ključ. Ako postoji, ažuriraj postojeći zapis.
                 $sql = "
                 INSERT INTO LatestDaily (Symbol, LastRefreshed, TimeZone, open, high, low, close, volume)
-                VALUES ('".$meta["2. Symbol"]."','".$meta["3. Last Refreshed"]."','".$meta["5. Time Zone"]."','".$value["1. open"]."','".$value["2. high"]."','".$value["3. low"]."','".$value["4. close"]."','".$value["5. volume"]."');";
+                VALUES ('".$meta["2. Symbol"]."','".$meta["3. Last Refreshed"]."','".$meta["5. Time Zone"]."','".$value["1. open"].
+                "','".$value["2. high"]."','".$value["3. low"]."','".$value["4. close"]."','".$value["5. volume"]."')
+                ON DUPLICATE KEY UPDATE 
+                LastRefreshed = VALUES(LastRefreshed), 
+                TimeZone = VALUES(TimeZone), 
+                open = VALUES(open), 
+                high = VALUES(high), 
+                low = VALUES(low), 
+                close = VALUES(close), 
+                volume = VALUES(volume);";
                 AppCore::getDB()->sendQuery($sql);
                 
                 $this->data = $json;
 
+                //Ovo slobodno možeš izbrisati, query je integriran u kod.
                 /* SQL za LatestDaily tablicu 
                 CREATE TABLE `LatestDaily` (
                 `ID` int NOT NULL,

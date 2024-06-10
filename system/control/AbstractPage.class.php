@@ -1,5 +1,4 @@
 <?php
-// Dio is VJ6. isto za sve kontrolere.
 abstract class AbstractPage {
     protected $data = [];
 
