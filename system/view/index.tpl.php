@@ -1,7 +1,6 @@
 Burza API ©2024 Bogdan Grabovac i Domagoj Tomić<br><br>
 
-<?php 
-// Data iz RequestHandler-a (koji iste dobio iz IndexPage-a) se ucitava u template.
+<?php
 foreach($data as $key => $info) { ?>
         <strong>
                 <?=$key?>
