@@ -1,6 +1,6 @@
 <?php
 abstract class AbstractPage {
-    protected $data = [];
+    protected $data;
 
     public function __construct()
     {

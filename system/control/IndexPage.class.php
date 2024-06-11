@@ -10,21 +10,27 @@ class IndexPage extends AbstractPage {
         public function execute() {
                 $resources = [
                         1 => [
-                                "url" => "Index - index.php",
+                                "url" => "index.php",
                                 "method" => "GET",
                                 "description" => "Dokumentacija za API."
                         ],
 
                         2 => [
-                                "url" => "Latest Daily - index.php?page=LatestDaily",
+                                "url" => "index.php?page=LatestDaily",
                                 "method" => "GET",
-                                "description" => "Dohvati naj noviji low high close open za praćene dionice."
+                                "description" => "Dohvati najnoviji low, high, close i open za sve praćene dionice."
                         ],
 
                         3 => [
-                                "url" => "AddStock - index.php?page=AddStock&symbol=addSymbol",
+                                "url" => "index.php?page=LatestDaily&symbol=IBM",
+                                "method" => "GET",
+                                "description" => "Dohvati najnoviji low, high, close i open za pojedinu dionicu. Obavezni parametri: symbol - ticker dionice čiju informaciju želite dohvatiti."
+                        ],
+
+                        4 => [
+                                "url" => "index.php?page=AddStock&symbol=IBM",
                                 "method" => "POST",
-                                "description" => "Dodaj novu dionicu u bazu. Obavezni parametri: addSymbol - ticker dionice koju želite dodati u bazu."
+                                "description" => "Dodaj novu dionicu u bazu. Obavezni parametri: symbol - ticker dionice koju želite dodati u bazu."
                         ]
                 ];
                 
