@@ -8,7 +8,7 @@ class LatestDailyPage extends AbstractPage {
         }
 
         public function execute() {
-                $sql = "SELECT * FROM stockInfo.LatestDaily";
+                $sql = "SELECT * FROM LatestDaily";
                 $result = AppCore::getDB()->sendQuery($sql);
                 $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
                 
