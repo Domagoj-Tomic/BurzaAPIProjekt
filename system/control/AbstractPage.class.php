@@ -11,7 +11,6 @@ abstract class AbstractPage {
     abstract function execute();
 
     public function show() {
-        // Ostavi templateName error sve klase koje extend-aju ce ga imati definirnog.
         $template = $this->templateName;
         $data = $this->data;
         include_once('system/view/'. $template . '.tpl.php');

@@ -7,8 +7,13 @@ foreach($data as $key => $info) { ?>
                 <a href="<?=$info["url"]?>"><?=$info["url"]?></a>
         </strong>
         <br>
-        Metoda: <?=$info["method"]?>
+        Method: <?=$info["method"]?>
         <br>
-        <?=$info["description"]?>
-        <br><br><br>
+        Description: <?=$info["description"]?>
+        <br>
+        <strong>Parameters:</strong><br>
+        <?php foreach($info["parameters"] as $param => $desc){?>
+              <p><?=$param?>: <?=$desc?></p>  
+        <?php } ?>
+        <br>
 <?php } ?>

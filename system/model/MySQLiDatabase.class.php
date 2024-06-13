@@ -23,6 +23,7 @@ class MySQLiDatabase {
     }
 
     // Čemu ovo uopće služi?
+    // Prepisano iz VJ6. Izgleda nepotrebno.
     /*
     public function fetchArray($result = null) {
         return $result->fetch_array(MYSQLI_BOTH);

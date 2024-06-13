@@ -14,16 +14,16 @@ define("ROOT", str_replace("\\", "/", __DIR__));
     <?php
     require_once(ROOT . '/system/AppCore.class.php');
     $appCore = new AppCore();
-    // https://www.alphavantage.co/documentation/
     // Key za API: LILJ8YER1XKMEVE1
-    // URL path absolutan kao u vjezbi
-    // Fetch-at podatke dionica: dnevno i povijesni za preddefinirane dionice
-    // CRUD za administraciju dionica
-    // Ispis u JSON formatu
-    // Siguran od SQL injekcija i XSS-a
-    // Jedan unit test
-    // Jedan fake test
-    // Dokumentacija
+    /*
+    Praćenje podataka, CRUD i JSON.
+    Svi funkcionalni zahtjevi su gotovi! Yey!
+    
+    Na papiru još piše: 
+    Sigurnost (SQL injection i XSS)
+    Testiranje (Unit test i fake test)
+    Dokumentacija (iako tu nema baš nešto ni za napravit)
+    */
     ?>
 </body>
 </html>
