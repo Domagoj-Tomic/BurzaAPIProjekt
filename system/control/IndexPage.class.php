@@ -53,7 +53,7 @@ class IndexPage extends AbstractPage
                                 "method" => "DELETE",
                                 "description" => "Deletes tracked historical data for a stock of your choosing.",
                                 "parameters" => [
-                                        "symbol" => "Required: The name of the equity of your choice. For example: symbol=IBM",
+                                        "symbol" => "The name of the equity of your choice. If empty, the whole database is wiped. For example: symbol=IBM",
                                         "timeSeries" => "Required: The selected time frame for historical data. Accepts three different inputs: daily, weekly and monthly. For example: timeSeries=daily"
                                 ]
                         ]
