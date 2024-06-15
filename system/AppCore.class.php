@@ -1,6 +1,7 @@
 <?php
-class AppCore {
-protected static $dbObj = null;
+class AppCore
+{
+    protected static $dbObj = null;
 
     function __construct()
     {
@@ -9,17 +10,19 @@ protected static $dbObj = null;
         RequestHandler::handle();
     }
 
-    function handleException(Exception $e) {
-
+    function handleException(Exception $e)
+    {
     }
 
-    function initDB(){
+    function initDB()
+    {
         require_once(ROOT . "/system/config.inc.php");
         require_once(ROOT . "/system/model/MySQLiDatabase.class.php");
         self::$dbObj = new MySQLiDatabase($dbHost, $dbUser, $dbPassword, $dbName);
     }
 
-    public static final function getDB(){
+    public static final function getDB()
+    {
         return self::$dbObj;
     }
 }
