@@ -1,4 +1,5 @@
 <?
-class DatabaseException extends Exception {
+class DatabaseException extends Exception
+{
         //Treba li ovdje biti išta?
 }

@@ -1,5 +1,6 @@
 <?php
-class DeleteRecordPage extends AbstractPage {
+class DeleteRecordPage extends AbstractPage
+{
     public $templateName = 'default';
     protected $symbol, $timeSeries;
 
@@ -10,11 +11,12 @@ class DeleteRecordPage extends AbstractPage {
         parent::__construct();
     }
 
-    public function execute() {
+    public function execute()
+    {
         $info = "Failed to find stock info.";
         $fullTableName = $this->symbol . $this->timeSeries;
         $sql = "SHOW TABLES LIKE '$fullTableName'";
-        if(AppCore::getDB()->sendQuery($sql)->num_rows > 0){
+        if (AppCore::getDB()->sendQuery($sql)->num_rows > 0) {
             $sql = "DROP TABLE $fullTableName";
             AppCore::getDB()->sendQuery($sql);
             $info = "Deletion of $fullTableName complete.";

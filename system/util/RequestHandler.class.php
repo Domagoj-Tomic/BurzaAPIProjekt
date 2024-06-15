@@ -1,5 +1,6 @@
 <?php
-class RequestHandler {
+class RequestHandler
+{
         function __construct($className)
         {
                 $className = $className . "Page";
@@ -8,7 +9,8 @@ class RequestHandler {
                 new $className();
         }
 
-        public static function handle(){
+        public static function handle()
+        {
                 $request = $_GET["page"] ?? "Index";
                 new RequestHandler($request);
         }

@@ -1,5 +1,6 @@
 <?php
-class ReadRecordPage extends AbstractPage {
+class ReadRecordPage extends AbstractPage
+{
     public $templateName = 'default';
     protected $symbol, $timeSeries;
 
@@ -10,8 +11,9 @@ class ReadRecordPage extends AbstractPage {
         parent::__construct();
     }
 
-    public function execute() {
-        if($this->symbol == null){
+    public function execute()
+    {
+        if ($this->symbol == null) {
             $sql = "SHOW TABLES LIKE '%$this->timeSeries'";
             $result = AppCore::getDB()->sendQuery($sql);
             $output = "[";
@@ -19,19 +21,19 @@ class ReadRecordPage extends AbstractPage {
                 $tableName = current($row);
                 $queryResult = AppCore::getDB()->sendQuery("SELECT * FROM `$tableName` ORDER BY `Date` DESC LIMIT 1");
                 $tableData = $queryResult->fetch_assoc();
-                $formattedData = "{\"Stock\":\"".$tableName."\"";
+                $formattedData = "{\"Stock\":\"" . $tableName . "\"";
                 foreach ($tableData as $column => $value) {
                     $formattedData .= ",\"$column\":\"$value\"";
                 }
                 $output .= $formattedData . "},";
             }
-            $this->data = rtrim($output, ",")."]";
+            $this->data = rtrim($output, ",") . "]";
             return;
         }
         $info = "Failed to find stock info.";
         $fullTableName = $this->symbol . $this->timeSeries;
         $sql = "SHOW TABLES LIKE '$fullTableName'";
-        if(AppCore::getDB()->sendQuery($sql)->num_rows > 0){
+        if (AppCore::getDB()->sendQuery($sql)->num_rows > 0) {
             $sql = "SELECT * FROM $fullTableName";
             $result = AppCore::getDB()->sendQuery($sql);
             $info = mysqli_fetch_all($result, MYSQLI_ASSOC);

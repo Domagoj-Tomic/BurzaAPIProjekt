@@ -1,5 +1,6 @@
 <?php
-class IndexPage extends AbstractPage {
+class IndexPage extends AbstractPage
+{
         public $templateName = 'index';
 
         public function __construct()
@@ -7,14 +8,14 @@ class IndexPage extends AbstractPage {
                 parent::__construct();
         }
 
-        public function execute() {
+        public function execute()
+        {
                 $resources = [
                         1 => [
                                 "url" => "index.php",
                                 "method" => "GET",
                                 "description" => "Documentation for the API.",
-                                "parameters" => [
-                                ]
+                                "parameters" => []
                         ],
 
                         2 => [
@@ -57,8 +58,7 @@ class IndexPage extends AbstractPage {
                                 ]
                         ]
                 ];
-                
+
                 $this->data = $resources;
         }
-
 }
