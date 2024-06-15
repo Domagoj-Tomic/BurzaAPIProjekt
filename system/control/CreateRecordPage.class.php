@@ -1,5 +1,6 @@
 <?php
-class CreateRecordPage extends AbstractPage {
+class CreateRecordPage extends AbstractPage
+{
         public $templateName = 'default';
         protected $function, $symbol, $apiKey, $tsLabel, $timeSeries;
 
@@ -8,7 +9,7 @@ class CreateRecordPage extends AbstractPage {
                 $this->apiKey = "demo";
                 $this->symbol = isset($_GET["symbol"]) ? $_GET["symbol"] : null;
                 $this->timeSeries = isset($_GET["timeSeries"]) ? $_GET["timeSeries"] : null;
-                switch($this->timeSeries) {
+                switch ($this->timeSeries) {
                         case 'daily':
                                 $this->function = "TIME_SERIES_DAILY";
                                 $this->tsLabel = "Time Series (Daily)";
@@ -21,37 +22,38 @@ class CreateRecordPage extends AbstractPage {
                                 $this->function = "TIME_SERIES_MONTHLY";
                                 $this->tsLabel = "Monthly Time Series";
                                 break;
-
                 }
                 parent::__construct();
         }
 
-        public function execute() {
-                $result = json_decode(file_get_contents('https://www.alphavantage.co/query?function='.$this->function.'&symbol='.$this->symbol.'&apikey=' . $this->apiKey), true);
-        
+        public function execute()
+        {
+                $result = json_decode(file_get_contents('https://www.alphavantage.co/query?function=' . $this->function . '&symbol=' . $this->symbol . '&apikey=' . $this->apiKey), true);
+
                 if (isset($result['Information'])) {
-                echo 'API returned an error: ' . $result['Information'] . '<br>';
-                echo 'Demo key prihvaća samo "IBM" kao simbol.<br><br><br>';
+                        echo 'API returned an error: ' . $result['Information'] . '<br>';
+                        echo 'Demo key prihvaća samo "IBM" kao simbol.<br><br><br>';
                 }
 
                 $tableName = $result["Meta Data"]["2. Symbol"];
                 $timeseries = $result[$this->tsLabel];
                 $this->data = $this->createTableAndInsertData($tableName, $timeseries);
                 if ($this->data != "Table for $tableName already exists.")
-                if ($this->apiKey === "demo") {
-                $percentageIncrease = 1.1;
-                for ($i = 0; $i < 4; $i++) {
-                        $fakeSymbol = $this->generateRandomString();
-                        $this->createTableAndInsertData($fakeSymbol, $timeseries, $percentageIncrease);
-                        $percentageIncrease *= 1.1;
-                }
-                }
+                        if ($this->apiKey === "demo") {
+                                $percentageIncrease = 1.1;
+                                for ($i = 0; $i < 4; $i++) {
+                                        $fakeSymbol = $this->generateRandomString();
+                                        $this->createTableAndInsertData($fakeSymbol, $timeseries, $percentageIncrease);
+                                        $percentageIncrease *= 1.1;
+                                }
+                        }
         }
 
-        private function createTableAndInsertData($tableName, $timeseries, $percentageIncrease = 1) {
+        private function createTableAndInsertData($tableName, $timeseries, $percentageIncrease = 1)
+        {
                 $fullTableName = $tableName . $this->timeSeries;
                 $sql = "SHOW TABLES LIKE '$fullTableName'";
-                if(AppCore::getDB()->sendQuery($sql)->num_rows>0) return "Table for $tableName already exists.";
+                if (AppCore::getDB()->sendQuery($sql)->num_rows > 0) return "Table for $tableName already exists.";
                 $sql = "CREATE TABLE IF NOT EXISTS $fullTableName (
                 `Date` date NOT NULL,
                 `Open` decimal(10,2) NOT NULL,
@@ -77,8 +79,9 @@ class CreateRecordPage extends AbstractPage {
                 }
                 return "Table for $tableName created.";
         }
-        
-        private function generateRandomString() {
+
+        private function generateRandomString()
+        {
                 $length = rand(3, 4);
                 $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
                 $charactersLength = strlen($characters);
