@@ -2,11 +2,12 @@
 class UpdateRecordPage extends AbstractPage
 {
     public $templateName = 'default';
-    protected $function, $symbol, $apiKey, $tsLabel, $timeSeries;
+    protected $function, $symbol, $apiKey, $tsLabel, $timeSeries, $db;
 
     public function __construct()
     {
         $this->apiKey = "demo";
+        $this->db = AppCore::getDB();
         $this->symbol = isset($_GET["symbol"]) ? $_GET["symbol"] : null;
         $this->timeSeries = isset($_GET["timeSeries"]) ? $_GET["timeSeries"] : null;
         switch ($this->timeSeries) {
@@ -22,13 +23,21 @@ class UpdateRecordPage extends AbstractPage
                 $this->function = "TIME_SERIES_MONTHLY";
                 $this->tsLabel = "Monthly Time Series";
                 break;
+            default:
+                    $this->timeSeries = null;
         }
         parent::__construct();
     }
 
     public function execute()
     {
+        if($this->timeSeries === null)
+            return $this->data = "Invalid timeSeries";
+            
         $result = json_decode(file_get_contents('https://www.alphavantage.co/query?function=' . $this->function . '&symbol=' . $this->symbol . '&apikey=' . $this->apiKey), true);
+
+        if(isset($result['Error Message']))
+            return $this->data = "Invalid symbol";
 
         if (isset($result['Information'])) {
             echo 'API returned an error: ' . $result['Information'] . '<br>';
@@ -44,7 +53,7 @@ class UpdateRecordPage extends AbstractPage
     {
         $fullTableName = $tableName . $this->timeSeries;
         $sql = "SHOW TABLES LIKE '$fullTableName'";
-        if (AppCore::getDB()->sendQuery($sql)->num_rows < 1) return "Table for $tableName has not yet been added to tracked stocks in this time series.";
+        if ($this->db->sendQuery($sql)->num_rows < 1) return "Table for $tableName has not yet been added to tracked stocks in this time series.";
 
         foreach ($timeseries as $date => $data) {
             $open = $data["1. open"] * $percentageIncrease;
@@ -55,7 +64,7 @@ class UpdateRecordPage extends AbstractPage
             $sql = "INSERT IGNORE INTO $fullTableName (Date, Open, High, Low, Close, Volume)
                         VALUES ('$date', '$open', '$high', '$low', '$close', '$volume')";
 
-            AppCore::getDB()->sendQuery($sql);
+        $this->db->sendQuery($sql);
         }
         return "Table for $tableName has been updated.";
     }

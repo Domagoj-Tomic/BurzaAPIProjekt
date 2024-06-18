@@ -17,15 +17,6 @@ define("ROOT", str_replace("\\", "/", __DIR__));
     require_once(ROOT . '/system/AppCore.class.php');
     $appCore = new AppCore();
     // Key za API: LILJ8YER1XKMEVE1
-    /*
-    Praćenje podataka, CRUD i JSON.
-    Svi funkcionalni zahtjevi su gotovi! Yey!
-    
-    Na papiru još piše: 
-    Sigurnost (SQL injection i XSS)
-    Testiranje (Unit test i fake test)
-    Dokumentacija (iako tu nema baš nešto ni za napravit)
-    */
     ?>
 </body>
 

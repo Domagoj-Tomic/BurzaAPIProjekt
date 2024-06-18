@@ -2,7 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 
-require_once(__DIR__ . "../../system/model/MySQLiDatabase.class.php");  //testovi ne uključuju index.php, stoga ROOT nije definiran
+require_once(dirname(__DIR__) . "/system/model/MySQLiDatabase.class.php");
 
 class MySQLiDatabaseTest extends TestCase
 {

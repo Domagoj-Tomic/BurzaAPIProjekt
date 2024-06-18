@@ -8,20 +8,32 @@ class DeleteRecordPage extends AbstractPage
     {
         $this->timeSeries = isset($_GET["timeSeries"]) ? $_GET["timeSeries"] : null;
         $this->symbol = isset($_GET["symbol"]) ? $_GET["symbol"] : null;
+        switch ($this->timeSeries) {
+            case 'daily':
+            case 'weekly':
+            case 'monthly':
+                break;
+            default:
+                    $this->timeSeries = null;
+        }
         parent::__construct();
     }
 
     public function execute()
     {
+        if($this->timeSeries === null)
+            return $this->data = "Invalid timeSeries";
+        
         $info = "Failed to find stock info.";
+        if(strlen($this->symbol) > 4) return $this->data = $info;
         $db = AppCore::getDB();
 
         if (empty($this->symbol)) {
-            $result = $db->sendQuery("SHOW TABLES");
+            $result = $db->sendQuery("SHOW TABLES LIKE '%$this->timeSeries'");
             while ($row = $result->fetch_array()) {
                 $db->sendQuery("DROP TABLE " . $row[0]);
             }
-            $info = "Deletion of all tables complete.";
+            $info = "Deletion of all tables in the $this->timeSeries time series complete.";
         } else {
             $fullTableName = $this->symbol . $this->timeSeries;
             $sql = "SHOW TABLES LIKE '$fullTableName'";
@@ -32,6 +44,6 @@ class DeleteRecordPage extends AbstractPage
             }
         }
 
-        $this->data = json_encode($info);
+        $this->data = $info;
     }
 }

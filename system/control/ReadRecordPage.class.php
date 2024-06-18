@@ -8,11 +8,24 @@ class ReadRecordPage extends AbstractPage
     {
         $this->timeSeries = isset($_GET["timeSeries"]) ? $_GET["timeSeries"] : null;
         $this->symbol = isset($_GET["symbol"]) ? $_GET["symbol"] : null;
+        switch ($this->timeSeries) {
+            case 'daily':
+            case 'weekly':
+            case 'monthly':
+                break;
+            default:
+                $this->timeSeries = null;
+        }
         parent::__construct();
     }
 
     public function execute()
     {
+        if($this->timeSeries === null)
+                return $this->data = "Invalid timeSeries";
+        
+        $info = "Failed to find stock info.";
+        if(strlen($this->symbol) > 4) return $this->data = $info;
         if ($this->symbol == null) {
             $sql = "SHOW TABLES LIKE '%$this->timeSeries'";
             $result = AppCore::getDB()->sendQuery($sql);
@@ -30,14 +43,13 @@ class ReadRecordPage extends AbstractPage
             $this->data = rtrim($output, ",") . "]";
             return;
         }
-        $info = "Failed to find stock info.";
         $fullTableName = $this->symbol . $this->timeSeries;
         $sql = "SHOW TABLES LIKE '$fullTableName'";
         if (AppCore::getDB()->sendQuery($sql)->num_rows > 0) {
             $sql = "SELECT * FROM $fullTableName";
             $result = AppCore::getDB()->sendQuery($sql);
-            $info = mysqli_fetch_all($result, MYSQLI_ASSOC);
+            $info = json_encode(mysqli_fetch_all($result, MYSQLI_ASSOC));
         }
-        $this->data = json_encode($info);
+        $this->data = $info;
     }
 }
