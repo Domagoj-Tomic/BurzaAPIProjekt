@@ -1,1 +1,1 @@
-{"version":1,"defects":{"MySQLiDatabaseTest::testSendQuery":4,"CreateRecordPageTest::testCreateTableAndInsertData":4},"times":{"MySQLiDatabaseTest::testSendQuery":0.024,"CreateRecordPageTest::testGenerateRandomString":0.005,"CreateRecordPageTest::testCreateTableAndInsertData":0.012}}
+{"version":1,"defects":{"MySQLiDatabaseTest::testSendQuery":4,"CreateRecordPageTest::testCreateTableAndInsertData":4},"times":{"MySQLiDatabaseTest::testSendQuery":0.128,"CreateRecordPageTest::testGenerateRandomString":0.229,"CreateRecordPageTest::testCreateTableAndInsertData":0.486}}
