@@ -2,7 +2,7 @@
 class CreateRecordPage extends AbstractPage
 {
         public $db, $templateName = 'default';
-        protected $function, $symbol, $apiKey, $tsLabel, $timeSeries;
+        protected $function, $symbol, $apiKey, $tsLabel, $timeSeries, $adminKey;
 
         public function __construct()
         {
@@ -10,6 +10,7 @@ class CreateRecordPage extends AbstractPage
                 $this->db = AppCore::getDB();
                 $this->symbol = isset($_GET["symbol"]) ? $_GET["symbol"] : null;
                 $this->timeSeries = isset($_GET["timeSeries"]) ? $_GET["timeSeries"] : null;
+                $this->adminKey = isset($_GET["adminKey"]) ? $_GET["adminKey"] : null;
                 switch ($this->timeSeries) {
                         case 'daily':
                                 $this->function = "TIME_SERIES_DAILY";
@@ -31,6 +32,8 @@ class CreateRecordPage extends AbstractPage
 
         public function execute()
         {
+                if($this->adminKey != "admin")
+                        return $this->data = "Unauthorised user";
                 if($this->timeSeries === null)
                         return $this->data = "Invalid timeSeries";
 

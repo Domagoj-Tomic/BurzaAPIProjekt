@@ -19,12 +19,13 @@ class IndexPage extends AbstractPage
                         ],
 
                         2 => [
-                                "url" => "index.php?page=CreateRecord&symbol=IBM&timeSeries=daily",
+                                "url" => "index.php?page=CreateRecord&symbol=IBM&timeSeries=daily&adminKey=admin",
                                 "method" => "POST",
                                 "description" => "Creates historical data for a stock of your choosing.",
                                 "parameters" => [
                                         "symbol" => "Required: The name of the equity of your choice. For example: symbol=IBM",
-                                        "timeSeries" => "Required: The selected time frame for historical data. Accepts three different inputs: daily, weekly and monthly. For example: timeSeries=daily"
+                                        "timeSeries" => "Required: The selected time frame for historical data. Accepts three different inputs: daily, weekly and monthly. For example: timeSeries=daily",
+                                        "adminKey" => "Required: This function is only available to authorised users with an adminKey. For example: adminKey=admin"
                                 ]
                         ],
 
@@ -39,22 +40,24 @@ class IndexPage extends AbstractPage
                         ],
 
                         4 => [
-                                "url" => "index.php?page=UpdateRecord&symbol=IBM&timeSeries=daily",
+                                "url" => "index.php?page=UpdateRecord&symbol=IBM&timeSeries=daily&adminKey=admin",
                                 "method" => "PUT",
                                 "description" => "Updates tracked historical data for a stock of your choosing.",
                                 "parameters" => [
                                         "symbol" => "Required: The name of the equity of your choice. For example: symbol=IBM",
-                                        "timeSeries" => "Required: The selected time frame for historical data. Accepts three different inputs: daily, weekly and monthly. For example: timeSeries=daily"
+                                        "timeSeries" => "Required: The selected time frame for historical data. Accepts three different inputs: daily, weekly and monthly. For example: timeSeries=daily",
+                                        "adminKey" => "Required: This function is only available to authorised users with an adminKey. For example: adminKey=admin"
                                 ]
                         ],
 
                         5 => [
-                                "url" => "index.php?page=DeleteRecord&symbol=IBM&timeSeries=daily",
+                                "url" => "index.php?page=DeleteRecord&symbol=IBM&timeSeries=daily&adminKey=admin",
                                 "method" => "DELETE",
                                 "description" => "Deletes tracked historical data for a stock of your choosing.",
                                 "parameters" => [
                                         "symbol" => "The name of the equity of your choice. If empty, the database is wiped for the selected timeSeries. For example: symbol=IBM",
-                                        "timeSeries" => "Required: The selected time frame for historical data. Accepts three different inputs: daily, weekly and monthly. For example: timeSeries=daily"
+                                        "timeSeries" => "Required: The selected time frame for historical data. Accepts three different inputs: daily, weekly and monthly. For example: timeSeries=daily",
+                                        "adminKey" => "Required: This function is only available to authorised users with an adminKey. For example: adminKey=admin"
                                 ]
                         ]
                 ];

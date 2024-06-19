@@ -2,12 +2,13 @@
 class DeleteRecordPage extends AbstractPage
 {
     public $templateName = 'default';
-    protected $symbol, $timeSeries;
+    protected $symbol, $timeSeries, $adminKey;
 
     public function __construct()
     {
         $this->timeSeries = isset($_GET["timeSeries"]) ? $_GET["timeSeries"] : null;
         $this->symbol = isset($_GET["symbol"]) ? $_GET["symbol"] : null;
+        $this->adminKey = isset($_GET["adminKey"]) ? $_GET["adminKey"] : null;
         switch ($this->timeSeries) {
             case 'daily':
             case 'weekly':
@@ -21,6 +22,8 @@ class DeleteRecordPage extends AbstractPage
 
     public function execute()
     {
+        if($this->adminKey != "admin")
+                return $this->data = "Unauthorised user";
         if($this->timeSeries === null)
             return $this->data = "Invalid timeSeries";
         
