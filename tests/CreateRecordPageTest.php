@@ -52,7 +52,6 @@ class CreateRecordPageTest extends TestCase
         // Act
         $createRecord->db = $database;
         $response = $createRecord->createTableAndInsertData("IBM",$timeseries);
-        echo "hi";
 
         // Assert
         $this->assertEquals('Table for IBM created',$response->Info);
