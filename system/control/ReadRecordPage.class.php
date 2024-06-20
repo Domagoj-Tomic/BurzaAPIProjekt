@@ -22,10 +22,10 @@ class ReadRecordPage extends AbstractPage
     public function execute()
     {
         if($this->timeSeries === null)
-                return $this->data = "Invalid timeSeries";
+                    return $this->data = json_encode((object) [ "Error" => "Invalid timeSeries" ]);
         
-        $info = "Failed to find stock info.";
-        if(strlen($this->symbol) > 4) return $this->data = $info;
+        $info = (object) [ "Error" => "Failed to find stock info" ];
+        if(!preg_match('/^[A-Z0-9]{1,4}$/', $this->symbol)) return $this->data = json_encode($info);
         if ($this->symbol == null) {
             $sql = "SHOW TABLES LIKE '%$this->timeSeries'";
             $result = AppCore::getDB()->sendQuery($sql);
@@ -48,8 +48,8 @@ class ReadRecordPage extends AbstractPage
         if (AppCore::getDB()->sendQuery($sql)->num_rows > 0) {
             $sql = "SELECT * FROM $fullTableName";
             $result = AppCore::getDB()->sendQuery($sql);
-            $info = json_encode(mysqli_fetch_all($result, MYSQLI_ASSOC));
+            $info = mysqli_fetch_all($result, MYSQLI_ASSOC);
         }
-        $this->data = $info;
+        $this->data = json_encode($info);
     }
 }

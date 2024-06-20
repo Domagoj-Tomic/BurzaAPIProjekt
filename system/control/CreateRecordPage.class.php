@@ -2,7 +2,8 @@
 class CreateRecordPage extends AbstractPage
 {
         public $db, $templateName = 'default';
-        protected $function, $symbol, $apiKey, $tsLabel, $timeSeries, $adminKey;
+        public $adminKey;
+        protected $function, $symbol, $apiKey, $tsLabel, $timeSeries;
 
         public function __construct()
         {
@@ -33,39 +34,37 @@ class CreateRecordPage extends AbstractPage
         public function execute()
         {
                 if($this->adminKey != "admin")
-                        return $this->data = "Unauthorised user";
+                        return $this->data = json_encode((object) [ "Error" => "Unauthorised user" ]);
                 if($this->timeSeries === null)
-                        return $this->data = "Invalid timeSeries";
+                    return $this->data = json_encode((object) [ "Error" => "Invalid timeSeries" ]);
 
                 $result = json_decode(file_get_contents('https://www.alphavantage.co/query?function=' . $this->function . '&symbol=' . $this->symbol . '&apikey=' . $this->apiKey), true);
 
                 if(isset($result['Error Message']))
-                        return $this->data = "Invalid symbol";
+                        return $this->data = json_encode((object) [ "Error" => "Invalid symbol" ]);
 
-                if (isset($result['Information'])) {
-                        echo 'API returned an error: ' . $result['Information'] . '<br>';
-                        echo 'Demo key prihvaća samo "IBM" kao simbol.<br><br><br>';
-                }
+                if (isset($result['Information']))
+                        return $this->data = json_encode((object) [ "Error" => "Demo key only works with IBM as symbol" ]);
 
                 $tableName = $result["Meta Data"]["2. Symbol"];
                 $timeseries = $result[$this->tsLabel];
-                $this->data = $this->createTableAndInsertData($tableName, $timeseries);
-                if ($this->data != "Table for $tableName already exists.")
-                        if ($this->apiKey === "demo") {
-                                $percentageIncrease = 1.1;
-                                for ($i = 0; $i < 4; $i++) {
-                                        $fakeSymbol = $this->generateRandomString();
-                                        $this->createTableAndInsertData($fakeSymbol, $timeseries, $percentageIncrease);
-                                        $percentageIncrease *= 1.1;
-                                }
+                $this->data = json_encode($this->createTableAndInsertData($tableName, $timeseries));
+                if (isset($this->data['Info']) && $this->apiKey === "demo")
+                {
+                        $percentageIncrease = 1.1;
+                        for ($i = 0; $i < 4; $i++) {
+                                $fakeSymbol = $this->generateRandomString();
+                                $this->createTableAndInsertData($fakeSymbol, $timeseries, $percentageIncrease);
+                                $percentageIncrease *= 1.1;
                         }
+                }
         }
 
         public function createTableAndInsertData($tableName, $timeseries, $percentageIncrease = 1)
         {
                 $fullTableName = $tableName . $this->timeSeries;
                 $sql = "SHOW TABLES LIKE '$fullTableName'";
-                if ($this->db->sendQuery($sql)->num_rows > 0) return "Table for $tableName already exists.";
+                if ($this->db->sendQuery($sql)->num_rows > 0) return (object) [ "Error" => "Table for $tableName already exists"];
                 $sql = "CREATE TABLE IF NOT EXISTS $fullTableName (
                 `Date` date NOT NULL,
                 `Open` decimal(10,2) NOT NULL,
@@ -89,7 +88,7 @@ class CreateRecordPage extends AbstractPage
 
                         $this->db->sendQuery($sql);
                 }
-                return "Table for $tableName created.";
+                return (object) [ "Info" => "Table for $tableName created"];
         }
 
         public function generateRandomString()

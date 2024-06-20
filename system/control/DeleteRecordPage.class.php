@@ -23,12 +23,12 @@ class DeleteRecordPage extends AbstractPage
     public function execute()
     {
         if($this->adminKey != "admin")
-                return $this->data = "Unauthorised user";
+            return $this->data = json_encode((object) [ "Error" => "Unauthorised user" ]);
         if($this->timeSeries === null)
-            return $this->data = "Invalid timeSeries";
+            return $this->data = json_encode((object) [ "Error" => "Invalid timeSeries" ]);
         
-        $info = "Failed to find stock info.";
-        if(strlen($this->symbol) > 4) return $this->data = $info;
+        $info = (object) [ "Error" => "Failed to find stock info" ];
+        if(!preg_match('/^[A-Z0-9]{1,4}$/', $this->symbol)) return $this->data = json_encode($info);
         $db = AppCore::getDB();
 
         if (empty($this->symbol)) {
@@ -36,17 +36,17 @@ class DeleteRecordPage extends AbstractPage
             while ($row = $result->fetch_array()) {
                 $db->sendQuery("DROP TABLE " . $row[0]);
             }
-            $info = "Deletion of all tables in the $this->timeSeries time series complete.";
+            $info = (object) [ "Error" => "Deletion of all tables in the $this->timeSeries time series complete" ];
         } else {
             $fullTableName = $this->symbol . $this->timeSeries;
             $sql = "SHOW TABLES LIKE '$fullTableName'";
             if ($db->sendQuery($sql)->num_rows > 0) {
                 $sql = "DROP TABLE $fullTableName";
                 $db->sendQuery($sql);
-                $info = "Deletion of $fullTableName complete.";
+                $info = (object) [ "Error" => "Deletion of $fullTableName complete" ];
             }
         }
 
-        $this->data = $info;
+        $this->data = json_encode($info);
     }
 }
